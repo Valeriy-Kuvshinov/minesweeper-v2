@@ -1,0 +1,21 @@
+.app-header {
+    padding: 1em;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    z-index: 1;
+    background: rgba(244, 232, 193, 0.15);
+
+    img {
+        width: 3em;
+        height: 3em;
+        object-fit: cover;
+    }
+
+    h1 {
+        font-size: 2em;
+        color: $clrSecondary2;
+        text-shadow: 0.05em 0.05em $clrPrimary3;
+    }
+}

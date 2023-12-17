@@ -1,0 +1,24 @@
+.main-container {
+    display: grid;
+
+    >* {
+        grid-column: 2;
+
+        &.full {
+            grid-column: 1 /-1;
+        }
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 16px 1fr 16px;
+    }
+
+    @media (min-width: 481px) {
+        grid-template-columns: 32px 1fr 32px;
+    }
+}
+
+.layout-row {
+    margin: auto;
+    max-width: 1400px;
+}
