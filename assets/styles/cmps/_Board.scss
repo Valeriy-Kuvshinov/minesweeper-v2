@@ -7,13 +7,27 @@
 
     .board-row {
         .board-cell {
-            width: 64px;
-            height: 64px;
-            background: $clrSecondary1;
+            width: 48px;
+            height: 48px;
+            background: rgb(194, 166, 121, 0.5);
             border: 1px solid $clrSecondary3;
             justify-content: center;
             align-items: center;
             font-size: 1.5em;
+            font-family: 'cairo-bold';
+
+            img {
+                width: 32px;
+                height: 32px;
+            }
+
+            &.unrevealed {
+                background: $clrSecondary6;
+            }
+
+            &.mined {
+                background: $clrSecondary7;
+            }
         }
     }
 }

@@ -5,12 +5,14 @@ export class Board {
     constructor(difficulty) {
         const config = difficulties[difficulty]
         this.difficulty = difficulty
+        this.lives = config.lives
         this.width = config.width
         this.height = config.height
         this.numberOfMines = config.mines
         this.cells = this.createBoard()
         this.placeMines()
         this.calculateNeighborMines()
+        console.log(this.toString())
     }
 
     createBoard() {

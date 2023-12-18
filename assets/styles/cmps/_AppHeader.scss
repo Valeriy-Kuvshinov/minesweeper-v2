@@ -1,11 +1,15 @@
 .app-header {
     padding: 1em;
     width: 100%;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.5em;
     z-index: 1;
     background: rgba(244, 232, 193, 0.15);
+
+    .header-contents {
+        gap: 0.5em;
+        align-items: center;
+    }
 
     img {
         width: 3em;

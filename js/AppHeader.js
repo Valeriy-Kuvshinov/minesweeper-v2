@@ -2,10 +2,12 @@ const pharaohImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v170281777
 
 export function AppHeader() {
     return `
-        <header class="app-header flex row full">
-            <img src="${pharaohImg}" alt="header logo" />
-            <h1>MummySweeper</h1>
-            <img src="${pharaohImg}" alt="header logo" />
+        <header class="app-header flex full">
+            <div class="header-contents flex row layout-row">
+                <img src="${pharaohImg}" alt="header logo" />
+                <h1>MummySweeper</h1>
+                <img src="${pharaohImg}" alt="header logo" />
+            </div>
         </header>
     `;
 }

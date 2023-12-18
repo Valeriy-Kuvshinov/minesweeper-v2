@@ -4,9 +4,7 @@ import { Board } from '../model/board.js'
 import { AppHeader } from '../AppHeader.js'
 import { renderBoard, difficulties } from '../controller/game-manager.js'
 
-const minesweeperBoard = new Board('beginner')
-
-console.log(minesweeperBoard.toString())
+const minesweeperBoard = new Board('medium')
 
 const appElement = document.querySelector('#app')
 appElement.innerHTML = `
