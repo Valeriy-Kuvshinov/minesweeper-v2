@@ -8,6 +8,7 @@ export class Board {
         this.lives = config.lives
         this.width = config.width
         this.height = config.height
+        this.gameOver = false
         this.numberOfMines = config.mines
         this.cells = this.createBoard()
         this.placeMines()
@@ -69,6 +70,18 @@ export class Board {
         }
     }
 
+    checkWinCondition() {
+        for (let row = 0; row < this.height; row++) {
+            for (let col = 0; col < this.width; col++) {
+                const cell = this.cells[row][col]
+                if (!cell.isMine && !cell.isRevealed) {
+                    return false
+                }
+            }
+        }
+        return true // All non-mine cells are revealed, return true
+    }
+
     toString() {
         let boardString = `Board [Difficulty: ${this.difficulty}, Width: 
             ${this.width}, Height: ${this.height}, Mines: 
@@ -78,10 +91,8 @@ export class Board {
             let rowString = ''
             for (let col = 0; col < this.width; col++) {
                 const cell = this.cells[row][col]
-                if (cell.isRevealed)
-                    rowString += cell.isMine ? 'X' : cell.neighborMineCount.toString()
-                else
-                    rowString += cell.isFlagged ? 'F' : '.'
+                rowString += cell.isMine ? 'X' : cell.neighborMineCount.toString()
+                rowString += cell.isFlagged ? 'F' : '.'
                 rowString += ' '
             }
             boardString += rowString.trim() + '\n'

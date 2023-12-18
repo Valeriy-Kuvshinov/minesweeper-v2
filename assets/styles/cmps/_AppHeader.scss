@@ -5,21 +5,39 @@
     align-items: center;
     z-index: 1;
     background: rgba(244, 232, 193, 0.15);
+    height: fit-content;
 
     .header-contents {
         gap: 0.5em;
         align-items: center;
+
+        img {
+            width: 3em;
+            height: 3em;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: $clrSecondary2;
+            text-shadow: 0.05em 0.05em $clrPrimary3;
+        }
     }
 
-    img {
-        width: 3em;
-        height: 3em;
-        object-fit: cover;
-    }
+    button {
+        width: 3.5em;
+        height: 3.5em;
+        display: flex;
+        align-self: center;
+        align-items: center;
+        justify-content: center;
+        background: $clrSecondary8;
+        border-radius: 50%;
 
-    h1 {
-        font-size: 2em;
-        color: $clrSecondary2;
-        text-shadow: 0.05em 0.05em $clrPrimary3;
+        img {
+            object-fit: cover;
+            width: 3.25em;
+            height: 3.25em;
+        }
     }
 }

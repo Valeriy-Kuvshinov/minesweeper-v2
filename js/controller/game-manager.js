@@ -1,5 +1,3 @@
-console.log("connected to gamee-manager")
-
 export const difficulties = {
     beginner: { width: 4, height: 4, mines: 2, lives: 2 },
     medium: { width: 8, height: 8, mines: 14, lives: 3 },
@@ -18,7 +16,7 @@ export function renderBoard(board) {
 
         row.forEach((cell, colIndex) => {
             const cellElement = document.createElement('div')
-            cellElement.className = "board-cell flex unrevealed"
+            cellElement.className = `board-cell flex unrevealed ${board.difficulty}`
             cellElement.id = cell.id
 
             if (cell.isMine) {
@@ -33,6 +31,10 @@ export function renderBoard(board) {
             cellElement.addEventListener('click', () => {
                 revealCell(board, rowIndex, colIndex, cellElement)
             })
+            cellElement.addEventListener('contextmenu', (e) => {
+                e.preventDefault() // Prevent the context menu from opening
+                toggleFlag(board, rowIndex, colIndex, cellElement)
+            })
             rowElement.appendChild(cellElement)
         })
         boardElement.appendChild(rowElement)
@@ -41,7 +43,7 @@ export function renderBoard(board) {
 }
 
 function revealCell(board, row, col, cellElement) {
-    if (board.lives !== 0) {
+    if (!board.gameOver) {
         const cell = board.cells[row][col]
 
         if (cell.isRevealed || cell.isFlagged) return
@@ -76,5 +78,30 @@ function revealCell(board, row, col, cellElement) {
                 }
             }
         }
+        checkGameOver(board)
+    }
+}
+
+function toggleFlag(board, row, col, cellElement) {
+    if (!board.gameOver) {
+        const cell = board.cells[row][col]
+
+        if (!cell.isRevealed) {
+            cell.toggleFlag()
+
+            if (cell.isFlagged) cellElement.classList.add('flagged')
+            else cellElement.classList.remove('flagged')
+        }
+    }
+}
+
+function checkGameOver(board) {
+    if (board.lives === 0) {
+        console.log('game over')
+        board.gameOver = true
+    }
+    else if (board.checkWinCondition()) {
+        console.log('Win!')
+        board.gameOver = true
     }
 }
