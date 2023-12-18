@@ -99,9 +99,37 @@ function checkGameOver(board) {
     if (board.lives === 0) {
         console.log('game over')
         board.gameOver = true
+        revealRemainingMines(board)
     }
     else if (board.checkWinCondition()) {
         console.log('Win!')
         board.gameOver = true
+        flagRemainingMines(board)
     }
+}
+
+function revealRemainingMines(board) {
+    board.cells.forEach(row => {
+        row.forEach(cell => {
+            if (cell.isMine && !cell.isRevealed) {
+                const cellElement = document.getElementById(cell.id)
+                const mineImg = cellElement.querySelector('img')
+                if (mineImg) mineImg.style.display = 'block'
+                cellElement.classList.add('mined')
+                cell.reveal()
+            }
+        })
+    })
+}
+
+function flagRemainingMines(board) {
+    board.cells.forEach(row => {
+        row.forEach(cell => {
+            if (cell.isMine && !cell.isRevealed) {
+                const cellElement = document.getElementById(cell.id)
+                cell.toggleFlag()
+                cellElement.classList.add('flagged')
+            }
+        })
+    })
 }
