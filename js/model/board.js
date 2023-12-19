@@ -1,5 +1,12 @@
 import { Cell } from "./cell.js"
-import { difficulties } from "../controller/game-manager.js"
+
+export const difficulties = {
+    beginner: { width: 4, height: 4, mines: 2, lives: 2 },
+    easy: { width: 6, height: 6, mines: 8, lives: 3 },
+    medium: { width: 8, height: 8, mines: 14, lives: 3 },
+    hard: { width: 10, height: 10, mines: 21, lives: 3 },
+    expert: { width: 12, height: 12, mines: 32, lives: 3 }
+}
 
 export class Board {
     constructor(difficulty) {
@@ -12,10 +19,11 @@ export class Board {
         this.hasStarted = false
         this.gameTimer = 0
         this.numberOfMines = config.mines
+        this.minesLeft = config.mines
         this.cells = this.createBoard()
         this.placeMines()
         this.calculateNeighborMines()
-        console.log(this.toString())
+        // console.log(this.toString())
     }
 
     createBoard() {

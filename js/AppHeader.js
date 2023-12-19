@@ -1,4 +1,4 @@
-const pharaohImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1702817777/MummySweeper/rsw1s45xuu16codev2vq.png';
+const pharaohImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1702817777/MummySweeper/rsw1s45xuu16codev2vq.png'
 const sunImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1702912103/MummySweeper/o3bdexckxdzkq8cil7a6.png'
 const moonImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1702906804/MummySweeper/n6alsecbsrdr3pohcc3v.png'
 const playAudioImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1702928661/MummySweeper/lxu8wiupvevxhxezgl4b.png'

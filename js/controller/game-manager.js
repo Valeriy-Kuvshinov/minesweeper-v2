@@ -1,135 +1,74 @@
-export const difficulties = {
-    beginner: { width: 4, height: 4, mines: 2, lives: 2 },
-    medium: { width: 8, height: 8, mines: 14, lives: 3 },
-    expert: { width: 12, height: 12, mines: 32, lives: 3 }
-}
+import { Board, difficulties } from "../model/board"
+import { renderBoard } from "./game-board"
 
-export function renderBoard(board) {
-    const boardElement = document.createElement('div')
-    boardElement.className = "minesweeper-board flex column"
+export function renderControls() {
+    const controlPanel = document.createElement('div')
+    controlPanel.className = 'control-panel'
 
-    const mummyImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1702890458/MummySweeper/gxl3fpsmtdsqiong7mua.png'
+    // Difficulty selection dropdown
+    const difficultySelect = document.createElement('select')
+    difficultySelect.id = 'difficulty-select'
+    Object.keys(difficulties).forEach(difficulty => {
+        const option = document.createElement('option')
+        option.value = difficulty
+        option.textContent = difficulty.charAt(0).toUpperCase()
+            + difficulty.slice(1)
 
-    board.cells.forEach((row, rowIndex) => {
-        const rowElement = document.createElement('div')
-        rowElement.className = "board-row flex row"
-
-        row.forEach((cell, colIndex) => {
-            const cellElement = document.createElement('div')
-            cellElement.className = `board-cell flex unrevealed ${board.difficulty}`
-            cellElement.id = cell.id
-
-            if (cell.isMine) {
-                const mineImg = document.createElement('img')
-                mineImg.src = mummyImg
-                mineImg.style.display = 'none'
-                cellElement.appendChild(mineImg)
-            } else {
-                const countText = document.createTextNode('')
-                cellElement.appendChild(countText)
-            }
-            cellElement.addEventListener('click', () => {
-                revealCell(board, rowIndex, colIndex, cellElement)
-            })
-            cellElement.addEventListener('contextmenu', (e) => {
-                e.preventDefault() // Prevent the context menu from opening
-                toggleFlag(board, rowIndex, colIndex, cellElement)
-            })
-            rowElement.appendChild(cellElement)
-        })
-        boardElement.appendChild(rowElement)
+        difficultySelect.appendChild(option)
     })
-    return boardElement
+    const restartButton = document.createElement('button')
+    restartButton.id = 'restart-button'
+    restartButton.textContent = '🤠'
+
+    controlPanel.appendChild(difficultySelect)
+    controlPanel.appendChild(restartButton)
+
+    difficultySelect.addEventListener('change', (event) => changeDifficulty(event.target.value))
+    restartButton.addEventListener('click', restartGame)
+
+    return controlPanel
 }
 
-function revealCell(board, row, col, cellElement) {
-    if (!board.gameOver) {
-        const cell = board.cells[row][col]
+// Function to change difficulty
+function changeDifficulty(newDifficulty) {
+    const newBoard = new Board(newDifficulty)
+    updateGameBoard(newBoard)
+}
 
-        if (cell.isRevealed || cell.isFlagged) return
+// Function to restart the game
+function restartGame() {
+    const currentDifficulty = document.getElementById('difficulty-select').value
+    const newBoard = new Board(currentDifficulty)
+    updateGameBoard(newBoard)
+}
 
-        cell.reveal()
-        cellElement.classList.remove('unrevealed')
+// Function to update the game board
+function updateGameBoard(newBoard) {
+    const oldBoardElement = document.querySelector('.minesweeper-board')
+    if (oldBoardElement) oldBoardElement.remove()
 
-        if (cell.isMine) {
-            board.lives--
-            const mineImg = cellElement.querySelector('img')
-            if (mineImg) mineImg.style.display = 'block'
+    const newBoardElement = renderBoard(newBoard)
 
-            cellElement.classList.add('mined')
-        } else {
-            cellElement.textContent = cell.neighborMineCount
-                > 0 ? cell.neighborMineCount : ''
-            if (cell.neighborMineCount === 0) {
-                // Recursively reveal neighboring cells
-                for (let offsetX = -1; offsetX <= 1; offsetX++) {
-                    for (let offsetY = -1; offsetY <= 1; offsetY++) {
-                        const neighborRow = row + offsetX
-                        const neighborCol = col + offsetY
+    const gameWrapper = document.querySelector('#game-wrapper')
+    gameWrapper.appendChild(newBoardElement)
 
-                        // Check if neighbor is within the board boundaries
-                        if (neighborRow >= 0 && neighborRow < board.height &&
-                            neighborCol >= 0 && neighborCol < board.width) {
-                            const neighborCellElement = document.getElementById(
-                                board.cells[neighborRow][neighborCol].id)
-                            revealCell(board, neighborRow, neighborCol, neighborCellElement)
-                        }
-                    }
-                }
-            }
-        }
-        checkGameOver(board)
+    updateRestartButton(newBoard.lives)
+}
+
+export function updateRestartButton(lives) {
+    const restartButton = document.getElementById('restart-button')
+    switch (lives) {
+        case 3:
+            restartButton.textContent = '🤠'
+            break
+        case 2:
+            restartButton.textContent = '😨'
+            break
+        case 1:
+            restartButton.textContent = '😱'
+            break
+        default:
+            restartButton.textContent = '💀'
+            break
     }
-}
-
-function toggleFlag(board, row, col, cellElement) {
-    if (!board.gameOver) {
-        const cell = board.cells[row][col]
-
-        if (!cell.isRevealed) {
-            cell.toggleFlag()
-
-            if (cell.isFlagged) cellElement.classList.add('flagged')
-            else cellElement.classList.remove('flagged')
-        }
-    }
-}
-
-function checkGameOver(board) {
-    if (board.lives === 0) {
-        console.log('game over')
-        board.gameOver = true
-        revealRemainingMines(board)
-    }
-    else if (board.checkWinCondition()) {
-        console.log('Win!')
-        board.gameOver = true
-        flagRemainingMines(board)
-    }
-}
-
-function revealRemainingMines(board) {
-    board.cells.forEach(row => {
-        row.forEach(cell => {
-            if (cell.isMine && !cell.isRevealed) {
-                const cellElement = document.getElementById(cell.id)
-                const mineImg = cellElement.querySelector('img')
-                if (mineImg) mineImg.style.display = 'block'
-                cellElement.classList.add('mined')
-                cell.reveal()
-            }
-        })
-    })
-}
-
-function flagRemainingMines(board) {
-    board.cells.forEach(row => {
-        row.forEach(cell => {
-            if (cell.isMine && !cell.isRevealed) {
-                const cellElement = document.getElementById(cell.id)
-                cell.toggleFlag()
-                cellElement.classList.add('flagged')
-            }
-        })
-    })
 }

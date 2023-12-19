@@ -1,0 +1,75 @@
+.game-wrapper {
+    gap: 0.5em;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+    margin: 0em auto;
+    height: fit-content;
+    width: 100%;
+
+    .minesweeper-board {
+        width: fit-content;
+        height: fit-content;
+        margin: 0 auto;
+        border: 6px solid $clrSecondary4;
+        border-radius: 0.25em;
+        background-image: url('https://res.cloudinary.com/digrqdbso/image/upload/v1702826392/MummySweeper/ltnoi7y5dhmiydqdpqiw.avif');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        .board-row {
+            .board-cell {
+                background: rgb(194, 166, 121, 0.5);
+                border: 1px solid $clrSecondary3;
+                justify-content: center;
+                align-items: center;
+                font-family: 'cairo-bold';
+                user-select: none;
+                cursor: default;
+
+                &.beginner,
+                &.easy,
+                &.medium {
+                    width: 64px;
+                    height: 64px;
+                    font-size: 2em;
+
+                    img {
+                        width: 48px;
+                        height: 48px;
+                    }
+                }
+
+                &.hard,
+                &.expert {
+                    width: 48px;
+                    height: 48px;
+                    font-size: 1.5em;
+
+                    img {
+                        width: 32px;
+                        height: 32px;
+                    }
+                }
+
+                &.unrevealed {
+                    background: $clrSecondary6;
+                    cursor: pointer;
+                }
+
+                &.flagged {
+                    background: $clrSecondary5;
+                    background-image: url('https://res.cloudinary.com/digrqdbso/image/upload/v1702999341/MummySweeper/kgsa9k7vrozxuqazlb1p.png');
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+
+                &.mined {
+                    background: $clrSecondary7;
+                }
+            }
+        }
+    }
+}
