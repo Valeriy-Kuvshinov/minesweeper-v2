@@ -9,11 +9,11 @@
     user-select: none;
 
     .control-panel {
-        width: 268px;
+        width: 262px;
         height: fit-content;
         gap: 0.5em;
         background: $clrSecondary1;
-        border-radius: 0.5em;
+        border-radius: 0.25em;
         padding: 0.25em 0.5em;
         border: 3px solid $clrSecondary4;
 
@@ -75,7 +75,7 @@
         width: fit-content;
         height: fit-content;
         margin: 0 auto;
-        border: 6px solid $clrSecondary4;
+        border: 3px solid $clrSecondary4;
         border-radius: 0.25em;
         background-image: url('https://res.cloudinary.com/digrqdbso/image/upload/v1702826392/MummySweeper/ltnoi7y5dhmiydqdpqiw.avif');
         background-size: cover;
@@ -83,6 +83,38 @@
         background-position: center;
 
         .board-row {
+            &:nth-child(odd) {
+                .board-cell {
+                    &:nth-child(odd) {
+                        &.unrevealed {
+                            background: $clrSecondary6;
+                        }
+                    }
+
+                    &:nth-child(even) {
+                        &.unrevealed {
+                            background: $clrSecondary2;
+                        }
+                    }
+                }
+            }
+
+            &:nth-child(even) {
+                .board-cell {
+                    &:nth-child(odd) {
+                        &.unrevealed {
+                            background: $clrSecondary2;
+                        }
+                    }
+
+                    &:nth-child(even) {
+                        &.unrevealed {
+                            background: $clrSecondary6;
+                        }
+                    }
+                }
+            }
+
             .board-cell {
                 background: rgb(194, 166, 121, 0.5);
                 border: 1px solid $clrSecondary3;
@@ -117,7 +149,6 @@
                 }
 
                 &.unrevealed {
-                    background: $clrSecondary6;
                     cursor: pointer;
                 }
 
@@ -127,6 +158,7 @@
                     background-size: contain;
                     background-repeat: no-repeat;
                     background-position: center;
+                    cursor: pointer;
                 }
 
                 &.mined {

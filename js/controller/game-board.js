@@ -88,12 +88,14 @@ function toggleFlag(board, row, col, cellElement) {
         if (!cell.isRevealed) {
             if (cell.isFlagged) {
                 cell.toggleFlag()
+                cellElement.classList.add('unrevealed')
                 cellElement.classList.remove('flagged')
                 board.minesLeft++
                 updateGameDisplays(board, 'mines')
             }
             else if (board.minesLeft > 0) {
                 cell.toggleFlag()
+                cellElement.classList.remove('unrevealed')
                 cellElement.classList.add('flagged')
                 board.minesLeft--
                 updateGameDisplays(board, 'mines')
@@ -125,6 +127,7 @@ function revealRemainingMines(board) {
                 const cellElement = document.getElementById(cell.id)
                 const mineImg = cellElement.querySelector('img')
                 if (mineImg) mineImg.style.display = 'block'
+                cellElement.classList.remove('unrevealed')
                 cellElement.classList.add('mined')
                 cell.reveal()
             }
@@ -138,6 +141,7 @@ function flagRemainingMines(board) {
             if (cell.isMine && !cell.isRevealed) {
                 const cellElement = document.getElementById(cell.id)
                 cell.toggleFlag()
+                cellElement.classList.remove('unrevealed')
                 cellElement.classList.add('flagged')
             }
         })
