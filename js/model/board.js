@@ -1,5 +1,12 @@
 import { Cell } from "./cell.js"
 
+export const gameCheats = {
+    cheatOne: { title: 'Safe Click', usesLeft: 3, description: 'Find a random unrevealed cell that does not contain a mine, said flagged cell will appear for 3 seconds, then disappear.' },
+    cheatTwo: { title: 'Mummy Exterminator', beenUsed: false, description: 'Destroy up to 3 undiscovered mummies, and recalculate the whole board again afterwards.' },
+    cheatThree: { title: 'Small Reveal', usesLeft: 3, description: 'Temporarily reveal a cell and its neighbors for a second, then let the fog return.' },
+    cheatFour: { title: 'Mega Reveal', wasUsed: false, description: 'Temporarily reveal a portion of the board (or all of it) by selecting point A and point B with your mouse.' }
+}
+
 export const difficulties = {
     beginner: { width: 4, height: 4, mines: 2, lives: 2 },
     easy: { width: 6, height: 6, mines: 8, lives: 3 },
@@ -23,6 +30,7 @@ export class Board {
         this.cells = this.createBoard()
         this.placeMines()
         this.calculateNeighborMines()
+        this.hasCheated = false
         // console.log(this.toString())
     }
 

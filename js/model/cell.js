@@ -13,6 +13,10 @@ export class Cell {
         this.isMine = true
     }
 
+    removeMine() {
+        this.isMine = false
+    }
+
     reveal() {
         if (!this.isFlagged && !this.isRevealed)
             this.isRevealed = true

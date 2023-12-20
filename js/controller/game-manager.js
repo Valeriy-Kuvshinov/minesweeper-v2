@@ -1,8 +1,9 @@
 const mummyImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1702995595/MummySweeper/nbx8rq48skndpyerawni.png'
 const timeImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1703065478/MummySweeper/j8kylyvhtn2fkrvy5izy.png'
 
-import { Board, difficulties } from "../model/board.js"
+import { Board, difficulties, gameCheats } from "../model/board.js"
 import { renderBoard, toggleGameTimer } from "./game-board.js"
+import { renderCheatMessage } from "./game-cheats.js"
 
 export let gameBoard = new Board('beginner')
 
@@ -10,10 +11,15 @@ export function renderControls() {
     const controlPanel = document.createElement('div')
     controlPanel.className = 'control-panel grid'
 
-    // Constructing the inner HTML for the control panel
     let optionsHtml = Object.keys(difficulties).map(difficulty =>
         `<option value="${difficulty}">
         ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+        </option>`
+    ).join('')
+
+    let cheatsHtml = Object.entries(gameCheats).map(([key, cheat]) =>
+        `<option value="${key}">
+        ${cheat.title}
         </option>`
     ).join('')
 
@@ -27,7 +33,9 @@ export function renderControls() {
             </div>
             <div class="select-area flex column">
                 <p>Game Cheats</p>
-
+                <select id="cheat-select">
+                    ${cheatsHtml}
+                </select>
             </div>
         </section>
 
@@ -51,6 +59,11 @@ export function renderControls() {
     difficultySelect.addEventListener('change', (event) =>
         changeDifficulty(event.target.value))
 
+    const cheatSelect = controlPanel.querySelector('#cheat-select')
+    cheatSelect.addEventListener('change', (event) => {
+        const selectedCheatKey = event.target.value
+        renderCheatMessage(gameBoard, gameCheats[selectedCheatKey])
+    })
     const restartButton = controlPanel.querySelector('#restart-button')
     restartButton.addEventListener('click', restartGame)
 
