@@ -6,6 +6,70 @@
     margin: 0em auto;
     height: fit-content;
     width: 100%;
+    user-select: none;
+
+    .control-panel {
+        width: 268px;
+        height: fit-content;
+        gap: 0.5em;
+        background: $clrSecondary1;
+        border-radius: 0.5em;
+        padding: 0.25em 0.5em;
+        border: 3px solid $clrSecondary4;
+
+        .game-options {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.25em;
+
+            .select-area {
+                padding: 0.25em;
+
+                p {
+                    color: $clrPrimary3;
+                    font-family: 'cairo-bold';
+                }
+
+                select {
+                    width: 80%;
+                }
+            }
+        }
+
+        .game-displays {
+            grid-template-columns: repeat(3, 1fr);
+
+            .amount-display {
+                gap: 0.25em;
+                padding: 0.25em;
+                align-items: center;
+
+                button,
+                img {
+                    width: 32px;
+                    height: 32px;
+                }
+
+                button {
+                    border-radius: 50%;
+                    border: 2px solid $clrSecondary8;
+                    transition: all 0.3s;
+
+                    &:hover {
+                        background: $clrSecondary5;
+                        border-color: $clrSecondary3;
+                    }
+                }
+
+                span {
+                    background: $clrPrimary1;
+                    padding: 0.25em;
+                    border-radius: 0.5em;
+                    min-width: 48px;
+                    text-align: center;
+                }
+            }
+        }
+    }
 
     .minesweeper-board {
         width: fit-content;
@@ -25,7 +89,6 @@
                 justify-content: center;
                 align-items: center;
                 font-family: 'cairo-bold';
-                user-select: none;
                 cursor: default;
 
                 &.beginner,

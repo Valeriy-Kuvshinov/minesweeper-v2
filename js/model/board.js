@@ -16,8 +16,8 @@ export class Board {
         this.width = config.width
         this.height = config.height
         this.gameOver = false
-        this.hasStarted = false
-        this.gameTimer = 0
+        this.gameTimer = null
+        this.timeElapsed = 0
         this.numberOfMines = config.mines
         this.minesLeft = config.mines
         this.cells = this.createBoard()

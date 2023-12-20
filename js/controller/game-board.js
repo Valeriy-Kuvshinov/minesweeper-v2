@@ -1,4 +1,4 @@
-import { updateRestartButton } from "./game-manager.js"
+import { updateGameDisplays } from "./game-manager.js"
 
 const mummyImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1702995595/MummySweeper/nbx8rq48skndpyerawni.png'
 
@@ -49,7 +49,8 @@ function revealCell(board, row, col, cellElement) {
 
         if (cell.isMine) {
             board.lives--
-            updateRestartButton(board.lives)
+            board.minesLeft--
+            updateGameDisplays(board, 'all')
             const mineImg = cellElement.querySelector('img')
             if (mineImg) mineImg.style.display = 'block'
 
@@ -75,6 +76,7 @@ function revealCell(board, row, col, cellElement) {
                 }
             }
         }
+        if (board.timeElapsed === 0) toggleGameTimer(board, 'start')
         checkGameOver(board)
     }
 }
@@ -88,11 +90,13 @@ function toggleFlag(board, row, col, cellElement) {
                 cell.toggleFlag()
                 cellElement.classList.remove('flagged')
                 board.minesLeft++
+                updateGameDisplays(board, 'mines')
             }
             else if (board.minesLeft > 0) {
                 cell.toggleFlag()
                 cellElement.classList.add('flagged')
                 board.minesLeft--
+                updateGameDisplays(board, 'mines')
             }
         }
     }
@@ -102,10 +106,15 @@ function checkGameOver(board) {
     if (board.lives === 0) {
         board.gameOver = true
         revealRemainingMines(board)
+        toggleGameTimer(board, 'stop')
     }
     else if (board.checkWinCondition()) {
         board.gameOver = true
         flagRemainingMines(board)
+        toggleGameTimer(board, 'stop')
+
+        const restartButton = document.getElementById('restart-button')
+        restartButton.textContent = '😎'
     }
 }
 
@@ -133,4 +142,23 @@ function flagRemainingMines(board) {
             }
         })
     })
+}
+
+export function toggleGameTimer(board, action) {
+    if (board.gameTimer !== null) {
+        clearInterval(board.gameTimer)
+        board.gameTimer = null
+    }
+
+    if (action === 'start') {
+        board.timeElapsed = 0
+        board.gameTimer = setInterval(() => {
+            board.timeElapsed++
+            updateGameDisplays(board, 'time')
+        }, 1000)
+    } else if (action === 'stop') {
+        clearInterval(board.gameTimer)
+        board.gameTimer = null
+        updateGameDisplays(board, 'time')
+    }
 }

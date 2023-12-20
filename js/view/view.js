@@ -1,12 +1,10 @@
 const musicMp3 = 'https://res.cloudinary.com/digrqdbso/video/upload/v1702927541/MummySweeper/l0danle2icni56ujkvou.mp3'
 
 import '../../assets/styles/main.scss'
-import { Board } from '../model/board.js'
 import { AppHeader, updateHeader, attachEventListeners, updateMusicButton } from '../AppHeader.js'
 import { renderBoard } from '../controller/game-board.js'
-import { renderControls, updateRestartButton } from '../controller/game-manager.js'
+import { renderControls, updateGameDisplays, gameBoard } from '../controller/game-manager.js'
 
-const minesweeperBoard = new Board('beginner')
 let currentMode = 'day-mode'
 
 const appElement = document.querySelector('#app')
@@ -26,10 +24,10 @@ setTimeout(() => {
   const controlPanelElement = renderControls()
   gameWrapper.appendChild(controlPanelElement)
 
-  const boardElement = renderBoard(minesweeperBoard)
+  const boardElement = renderBoard(gameBoard)
   gameWrapper.appendChild(boardElement)
 
-  updateRestartButton(minesweeperBoard.lives)
+  updateGameDisplays(gameBoard, 'all')
 }, 1)
 
 function toggleTheme() {

@@ -1,29 +1,57 @@
-import { Board, difficulties } from "../model/board"
-import { renderBoard } from "./game-board"
+const mummyImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1702995595/MummySweeper/nbx8rq48skndpyerawni.png'
+const timeImg = 'https://res.cloudinary.com/digrqdbso/image/upload/v1703065478/MummySweeper/j8kylyvhtn2fkrvy5izy.png'
+
+import { Board, difficulties } from "../model/board.js"
+import { renderBoard, toggleGameTimer } from "./game-board.js"
+
+export let gameBoard = new Board('beginner')
 
 export function renderControls() {
     const controlPanel = document.createElement('div')
-    controlPanel.className = 'control-panel'
+    controlPanel.className = 'control-panel grid'
 
-    // Difficulty selection dropdown
-    const difficultySelect = document.createElement('select')
-    difficultySelect.id = 'difficulty-select'
-    Object.keys(difficulties).forEach(difficulty => {
-        const option = document.createElement('option')
-        option.value = difficulty
-        option.textContent = difficulty.charAt(0).toUpperCase()
-            + difficulty.slice(1)
+    // Constructing the inner HTML for the control panel
+    let optionsHtml = Object.keys(difficulties).map(difficulty =>
+        `<option value="${difficulty}">
+        ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+        </option>`
+    ).join('')
 
-        difficultySelect.appendChild(option)
-    })
-    const restartButton = document.createElement('button')
-    restartButton.id = 'restart-button'
-    restartButton.textContent = '🤠'
+    controlPanel.innerHTML = `
+        <section class="game-options grid">
+            <div class="select-area flex column">
+                <p>Select Level</p>
+                <select id="difficulty-select">
+                    ${optionsHtml}
+                </select>
+            </div>
+            <div class="select-area flex column">
+                <p>Game Cheats</p>
 
-    controlPanel.appendChild(difficultySelect)
-    controlPanel.appendChild(restartButton)
+            </div>
+        </section>
 
-    difficultySelect.addEventListener('change', (event) => changeDifficulty(event.target.value))
+        <section class="game-displays grid">
+            <div class="amount-display flex column">
+                <img src="${mummyImg}" alt="Mummy" />
+                <span id="mines-display">0</span>
+            </div>
+            <div class="amount-display flex column">
+                <button id="restart-button">Restart</button>
+                <span id="lives-display">2</span>
+            </div>
+            <div class="amount-display flex column">
+                <img src="${timeImg}" alt="Time" />
+                <span id="time-display">0</span>
+            </div>
+        </section>
+    `
+
+    const difficultySelect = controlPanel.querySelector('#difficulty-select')
+    difficultySelect.addEventListener('change', (event) =>
+        changeDifficulty(event.target.value))
+
+    const restartButton = controlPanel.querySelector('#restart-button')
     restartButton.addEventListener('click', restartGame)
 
     return controlPanel
@@ -31,15 +59,17 @@ export function renderControls() {
 
 // Function to change difficulty
 function changeDifficulty(newDifficulty) {
-    const newBoard = new Board(newDifficulty)
-    updateGameBoard(newBoard)
+    toggleGameTimer(gameBoard, 'stop')
+    gameBoard = new Board(newDifficulty)
+    updateGameBoard(gameBoard)
 }
 
 // Function to restart the game
 function restartGame() {
+    toggleGameTimer(gameBoard, 'stop')
     const currentDifficulty = document.getElementById('difficulty-select').value
-    const newBoard = new Board(currentDifficulty)
-    updateGameBoard(newBoard)
+    gameBoard = new Board(currentDifficulty)
+    updateGameBoard(gameBoard)
 }
 
 // Function to update the game board
@@ -52,10 +82,10 @@ function updateGameBoard(newBoard) {
     const gameWrapper = document.querySelector('#game-wrapper')
     gameWrapper.appendChild(newBoardElement)
 
-    updateRestartButton(newBoard.lives)
+    updateGameDisplays(newBoard, 'all')
 }
 
-export function updateRestartButton(lives) {
+function updateRestartButton(lives) {
     const restartButton = document.getElementById('restart-button')
     switch (lives) {
         case 3:
@@ -69,6 +99,34 @@ export function updateRestartButton(lives) {
             break
         default:
             restartButton.textContent = '💀'
+            break
+    }
+}
+
+// Function to update the game info displays
+export function updateGameDisplays(board, dispalyCase) {
+    const livesDisplay = document.getElementById('lives-display')
+    const minesDisplay = document.getElementById('mines-display')
+    const timeDisplay = document.getElementById('time-display')
+
+    switch (dispalyCase) {
+        case 'time':
+            timeDisplay.textContent = board.timeElapsed
+            break
+        case 'lives':
+            livesDisplay.textContent = board.lives
+            updateRestartButton(board.lives)
+            break
+        case 'mines':
+            minesDisplay.textContent = board.minesLeft
+            break
+        case 'all':
+            timeDisplay.textContent = board.timeElapsed
+            minesDisplay.textContent = board.minesLeft
+            livesDisplay.textContent = board.lives
+            updateRestartButton(board.lives)
+            break
+        default:
             break
     }
 }
