@@ -15,11 +15,13 @@ export function renderCheatMessage(board, gameCheat) {
 
     modalWrapper.innerHTML = `
         <div class="modal-content flex column">
-            <h2>${gameCheat.title}</h2>
-            <p>${usageMessage}</p>
-            <p>${gameCheat.description}</p>
-            <p>ATTENTION!</p>
-            <p>Using any of the provided cheats will prevent you from submitting your score in the end of the game.</p>
+            <div class="modal-text flex column">
+                <h2>${gameCheat.title}</h2>
+                <p>${usageMessage}</p>
+                <p>${gameCheat.description}</p>
+                <p>ATTENTION!</p>
+                <p>Using any of the provided cheats will prevent you from submitting your score in the end of the game.</p>
+            </div>
 
             <div class="modal-buttons flex row">
                 <button id="cancel-button">Cancel</button>
