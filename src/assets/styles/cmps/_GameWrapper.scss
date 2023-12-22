@@ -127,8 +127,7 @@
                 cursor: default;
 
                 &.beginner,
-                &.easy,
-                &.medium {
+                &.easy {
                     width: 64px;
                     height: 64px;
                     font-size: 2em;
@@ -139,6 +138,7 @@
                     }
                 }
 
+                &.medium,
                 &.hard,
                 &.expert {
                     width: 48px;

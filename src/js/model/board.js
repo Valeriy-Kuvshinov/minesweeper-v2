@@ -31,6 +31,7 @@ export class Board {
         this.placeMines()
         this.calculateNeighborMines()
         this.hasCheated = false
+        this.hintRevealMode = false
         // console.log(this.toString())
     }
 
@@ -92,12 +93,20 @@ export class Board {
         for (let row = 0; row < this.height; row++) {
             for (let col = 0; col < this.width; col++) {
                 const cell = this.cells[row][col]
-                if (!cell.isMine && !cell.isRevealed) {
-                    return false
-                }
+                if (!cell.isMine && !cell.isRevealed) return false
             }
         }
         return true // All non-mine cells are revealed, return true
+    }
+
+    checkForUnrevealed() {
+        for (let row = 0; row < this.height; row++) {
+            for (let col = 0; col < this.width; col++) {
+                const cell = this.cells[row][col]
+                if (!cell.isRevealed) return true
+            }
+        }
+        return false // All cells are revealed, return false
     }
 
     toString() {

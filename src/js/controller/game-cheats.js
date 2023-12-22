@@ -123,8 +123,9 @@ function executeMummyExterminator(board, gameCheat) {
 }
 
 function executeSmallReveal(board, gameCheat) {
-    if (gameCheat.usesLeft !== 0) {
+    if (gameCheat.usesLeft !== 0 && board.checkForUnrevealed()) {
         console.log(`Executing cheat: ${gameCheat.title}`)
+        board.hintRevealMode = true
         gameCheat.usesLeft--
     } else gameCheat.isAvailable = false
 }

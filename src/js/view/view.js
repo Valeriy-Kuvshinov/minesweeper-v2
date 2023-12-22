@@ -1,7 +1,7 @@
 const musicMp3 = 'https://res.cloudinary.com/digrqdbso/video/upload/v1702927541/MummySweeper/l0danle2icni56ujkvou.mp3'
 
 import '../../assets/styles/main.scss'
-import { AppHeader, updateHeader, attachEventListeners, updateMusicButton } from '../AppHeader.js'
+import { AppHeader, updateHeader, attachEventListeners, updateMusicButton } from '../cmps/AppHeader.js'
 import { renderBoard } from '../controller/game-board.js'
 import { renderControls, updateGameDisplays, gameBoard } from '../controller/game-manager.js'
 

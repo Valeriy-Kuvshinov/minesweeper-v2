@@ -32,7 +32,9 @@ export function renderBoard(board) {
                 if (cell.isRevealed) cellElement.classList.add('mined')
             }
             cellElement.addEventListener('click', () => {
-                revealCell(board, rowIndex, colIndex, cellElement)
+                if (board.hintRevealMode && !cell.isRevealed)
+                    hintRevealCells(board, rowIndex, colIndex, cellElement)
+                else revealCell(board, rowIndex, colIndex, cellElement)
             })
             cellElement.addEventListener('contextmenu', (e) => {
                 e.preventDefault() // Prevent the context menu from opening
@@ -147,9 +149,9 @@ function flagRemainingMines(board) {
         row.forEach(cell => {
             if (cell.isMine && !cell.isRevealed) {
                 const cellElement = document.getElementById(cell.id)
-                cell.toggleFlag()
                 cellElement.classList.remove('unrevealed')
                 cellElement.classList.add('flagged')
+                cell.toggleFlag()
             }
         })
     })
@@ -171,5 +173,52 @@ export function toggleGameTimer(board, action) {
         clearInterval(board.gameTimer)
         board.gameTimer = null
         updateGameDisplays(board, 'time')
+    }
+}
+
+function hintRevealCells(board, row, col, cellElement) {
+    const cellsToRevert = []
+
+    tempRevealCell(board.cells[row][col], cellElement, cellsToRevert)
+
+    // Temporarily reveal neighboring cells
+    for (let offsetX = -1; offsetX <= 1; offsetX++) {
+        for (let offsetY = -1; offsetY <= 1; offsetY++) {
+            if (offsetX === 0 && offsetY === 0) continue
+            const neighborRow = row + offsetX
+            const neighborCol = col + offsetY
+
+            if (neighborRow >= 0 && neighborRow < board.height &&
+                neighborCol >= 0 && neighborCol < board.width) {
+                const neighborCell = board.cells[neighborRow][neighborCol]
+                const neighborCellElement = document.getElementById(neighborCell.id)
+
+                tempRevealCell(neighborCell, neighborCellElement, cellsToRevert)
+            }
+        }
+    }
+    // Revert the cells back to their original state after 3 seconds
+    setTimeout(() => {
+        cellsToRevert.forEach(({ cellElement, row, col }) => {
+            const cell = board.cells[row][col]
+            if (!cell.isRevealed) {
+                cellElement.classList.add('unrevealed')
+                if (cell.isMine) {
+                    cellElement.querySelector('img').style.display = 'none'
+                } else cellElement.textContent = ''
+            }
+        })
+    }, 3000)
+    board.hintRevealMode = false
+}
+
+function tempRevealCell(cell, cellElement, cellsToRevert) {
+    if (!cell.isRevealed) {
+        cellElement.classList.remove('unrevealed')
+        if (cell.isMine) cellElement.querySelector('img').style.display = 'block'
+        else cellElement.textContent = cell.neighborMineCount > 0
+            ? cell.neighborMineCount : ''
+
+        cellsToRevert.push({ cellElement, row: cell.row, col: cell.col })
     }
 }
