@@ -6,6 +6,7 @@ export class Cell {
         this.isMine = false
         this.isRevealed = false
         this.isFlagged = false
+        this.isMarkedSafe = false
         this.neighborMineCount = 0
     }
 
@@ -15,6 +16,14 @@ export class Cell {
 
     removeMine() {
         this.isMine = false
+    }
+
+    setSafeMark() {
+        this.isMarkedSafe = true
+    }
+
+    removeSafeMark() {
+        this.isMarkedSafe = false
     }
 
     reveal() {

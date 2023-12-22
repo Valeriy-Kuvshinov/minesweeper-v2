@@ -54,7 +54,6 @@ export function renderControls() {
             </div>
         </section>
     `
-
     const difficultySelect = controlPanel.querySelector('#difficulty-select')
     difficultySelect.addEventListener('change', (event) =>
         changeDifficulty(event.target.value))
@@ -75,6 +74,7 @@ function changeDifficulty(newDifficulty) {
     toggleGameTimer(gameBoard, 'stop')
     gameBoard = new Board(newDifficulty)
     updateGameBoard(gameBoard)
+    resetCheats()
 }
 
 // Function to restart the game
@@ -83,10 +83,24 @@ function restartGame() {
     const currentDifficulty = document.getElementById('difficulty-select').value
     gameBoard = new Board(currentDifficulty)
     updateGameBoard(gameBoard)
+    resetCheats()
+}
+
+// Function to reset the cheats
+function resetCheats() {
+    gameCheats.cheatOne.isAvailable = true
+    gameCheats.cheatOne.usesLeft = 3
+
+    gameCheats.cheatTwo.isAvailable = true
+
+    gameCheats.cheatThree.isAvailable = true
+    gameCheats.cheatThree.usesLeft = 3
+
+    gameCheats.cheatFour.isAvailable = true
 }
 
 // Function to update the game board
-function updateGameBoard(newBoard) {
+export function updateGameBoard(newBoard) {
     const oldBoardElement = document.querySelector('.minesweeper-board')
     if (oldBoardElement) oldBoardElement.remove()
 

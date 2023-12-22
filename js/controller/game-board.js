@@ -12,17 +12,24 @@ export function renderBoard(board) {
 
         row.forEach((cell, colIndex) => {
             const cellElement = document.createElement('div')
-            cellElement.className = `board-cell flex unrevealed ${board.difficulty}`
+            cellElement.className = `board-cell flex 
+                ${cell.isRevealed ? '' : 'unrevealed'} ${board.difficulty}`
             cellElement.id = cell.id
+
+            if (!cell.isMine) {
+                const countText = document.createTextNode
+                    (cell.isRevealed && cell.neighborMineCount > 0
+                        ? cell.neighborMineCount : '')
+                cellElement.appendChild(countText)
+            }
 
             if (cell.isMine) {
                 const mineImg = document.createElement('img')
                 mineImg.src = mummyImg
-                mineImg.style.display = 'none'
+                mineImg.style.display = cell.isRevealed ? 'block' : 'none'
                 cellElement.appendChild(mineImg)
-            } else {
-                const countText = document.createTextNode('')
-                cellElement.appendChild(countText)
+
+                if (cell.isRevealed) cellElement.classList.add('mined')
             }
             cellElement.addEventListener('click', () => {
                 revealCell(board, rowIndex, colIndex, cellElement)
@@ -42,7 +49,7 @@ function revealCell(board, row, col, cellElement) {
     if (!board.gameOver) {
         const cell = board.cells[row][col]
 
-        if (cell.isRevealed || cell.isFlagged) return
+        if (cell.isRevealed || cell.isFlagged || cell.isMarkedSafe) return
 
         cell.reveal()
         cellElement.classList.remove('unrevealed')

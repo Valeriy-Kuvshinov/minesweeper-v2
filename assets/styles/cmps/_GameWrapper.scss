@@ -167,6 +167,10 @@
                 &.mined {
                     background: $clrSecondary7;
                 }
+
+                &.safe-click {
+                    background: $clrSecondary10;
+                }
             }
         }
     }

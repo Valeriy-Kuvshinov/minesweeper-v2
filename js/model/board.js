@@ -1,10 +1,10 @@
 import { Cell } from "./cell.js"
 
-export const gameCheats = {
-    cheatOne: { title: 'Safe Click', usesLeft: 3, description: 'Find a random unrevealed cell that does not contain a mine, said flagged cell will appear for 3 seconds, then disappear.' },
-    cheatTwo: { title: 'Mummy Exterminator', beenUsed: false, description: 'Destroy up to 3 undiscovered mummies, and recalculate the whole board again afterwards.' },
-    cheatThree: { title: 'Small Reveal', usesLeft: 3, description: 'Temporarily reveal a cell and its neighbors for a second, then let the fog return.' },
-    cheatFour: { title: 'Mega Reveal', wasUsed: false, description: 'Temporarily reveal a portion of the board (or all of it) by selecting point A and point B with your mouse.' }
+export let gameCheats = {
+    cheatOne: { title: 'Safe Click', isAvailable: true, usesLeft: 3, description: 'Find a random unrevealed cell that does not contain a mine, said flagged cell will appear for 3 seconds, then disappear.' },
+    cheatTwo: { title: 'Mummy Exterminator', isAvailable: true, description: 'Destroy up to 3 undiscovered mummies, and recalculate the whole board again afterwards.' },
+    cheatThree: { title: 'Small Reveal', isAvailable: true, usesLeft: 3, description: 'Temporarily reveal a cell and its neighbors for a second, then let the fog return.' },
+    cheatFour: { title: 'Mega Reveal', isAvailable: true, description: 'Temporarily reveal a portion of the board (or all of it) by selecting point A and point B with your mouse.' }
 }
 
 export const difficulties = {
