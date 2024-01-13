@@ -4,7 +4,7 @@ import '../../assets/styles/main.scss'
 import { AppHeader, updateHeader, attachEventListeners, updateMusicButton } from '../cmps/AppHeader.js'
 import { renderBoard } from '../controller/game-board.js'
 import { renderControls, updateGameDisplays, gameBoard } from '../controller/game-manager.js'
-import { appFooter } from '../cmps/AppFooter.js'
+import { AppFooter, updateFooter } from '../cmps/AppFooter.js'
 
 let currentMode = 'day-mode'
 
@@ -16,7 +16,7 @@ appElement.innerHTML = `
       ${AppHeader(currentMode)}
       <div id="game-wrapper" class="game-wrapper flex column layout-row">
       </div>
-      ${appFooter(currentMode)}
+      ${AppFooter(currentMode)}
   </div>
   <audio id="background-music" src="${musicMp3}" loop></audio>
 `
@@ -40,6 +40,7 @@ function toggleTheme() {
   mainContainer.classList.add(currentMode)
 
   updateHeader(currentMode)
+  updateFooter(currentMode)
   attachEventListeners(toggleTheme)
 
   updateMusicButton()

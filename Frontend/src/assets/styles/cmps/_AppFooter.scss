@@ -20,18 +20,23 @@
         width: 100%;
         transition: all 0.3s;
 
+        p,
+        a {
+            font-size: 14px;
+            font-family: 'cairo-bold';
+        }
+
         a {
             color: $clrPrimary1;
-            font-size: 14px;
         }
 
         &.day-mode {
-            color: $clrSecondary5;
+            color: $clrSecondary1;
             text-shadow: 0.05em 0.05em $clrPrimary3;
         }
 
         &.night-mode {
-            color: $clrSecondary7;
+            color: $clrPrimary2;
             text-shadow: 0.05em 0.05em $clrPrimary3;
         }
     }
