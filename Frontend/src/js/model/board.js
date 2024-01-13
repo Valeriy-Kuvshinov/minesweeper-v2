@@ -32,6 +32,7 @@ export class Board {
         this.calculateNeighborMines()
         this.hasCheated = false
         this.hintRevealMode = false
+        this.megaHintRevealMode = false
         // console.log(this.toString())
     }
 

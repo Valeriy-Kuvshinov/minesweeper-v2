@@ -1,0 +1,38 @@
+.app-footer {
+    padding: 1em;
+    width: 100%;
+    align-items: center;
+    z-index: 1;
+    height: fit-content;
+    transition: all 0.3s;
+
+    &.day-mode {
+        background: rgba(244, 232, 193, 0.1);
+    }
+
+    &.night-mode {
+        background: rgba(15, 15, 15, 0.1);
+    }
+
+    .footer-contents {
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        transition: all 0.3s;
+
+        a {
+            color: $clrPrimary1;
+            font-size: 14px;
+        }
+
+        &.day-mode {
+            color: $clrSecondary5;
+            text-shadow: 0.05em 0.05em $clrPrimary3;
+        }
+
+        &.night-mode {
+            color: $clrSecondary7;
+            text-shadow: 0.05em 0.05em $clrPrimary3;
+        }
+    }
+}

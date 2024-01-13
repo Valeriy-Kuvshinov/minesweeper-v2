@@ -64,7 +64,6 @@ function executeCheat(board, cheatKey) {
             executeMegaReveal(board, gameCheat)
             break
         default:
-            console.log('Unknown cheat')
             break
     }
 }

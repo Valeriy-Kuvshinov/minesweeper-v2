@@ -1,9 +1,10 @@
-const musicMp3 = 'https://res.cloudinary.com/digrqdbso/video/upload/v1702927541/MummySweeper/l0danle2icni56ujkvou.mp3'
+const musicMp3 = 'https://res.cloudinary.com/digrqdbso/video/upload/v1705167188/MummySweeper/g2rr1nle5xawwbkli2pj.mp3'
 
 import '../../assets/styles/main.scss'
 import { AppHeader, updateHeader, attachEventListeners, updateMusicButton } from '../cmps/AppHeader.js'
 import { renderBoard } from '../controller/game-board.js'
 import { renderControls, updateGameDisplays, gameBoard } from '../controller/game-manager.js'
+import { appFooter } from '../cmps/AppFooter.js'
 
 let currentMode = 'day-mode'
 
@@ -15,6 +16,7 @@ appElement.innerHTML = `
       ${AppHeader(currentMode)}
       <div id="game-wrapper" class="game-wrapper flex column layout-row">
       </div>
+      ${appFooter(currentMode)}
   </div>
   <audio id="background-music" src="${musicMp3}" loop></audio>
 `
